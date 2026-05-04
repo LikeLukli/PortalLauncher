@@ -1693,6 +1693,7 @@ void MainWindow::on_actionUpdatePack_triggered()
 {
     if (m_selectedInstance)
         APPLICATION->showInstanceWindow(m_selectedInstance, "managed_pack");
+}
 
 void MainWindow::on_actionManageSkins_triggered()
 {
