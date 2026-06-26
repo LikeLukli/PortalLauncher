@@ -78,6 +78,11 @@ bool InstanceProxyModel::subSortLessThan(const QModelIndex& left, const QModelIn
         if (leftRank != rightRank)
             return leftRank < rightRank;
         return m_naturalSort.compare(pdataLeft->name(), pdataRight->name()) < 0;
+    } else if (sortMode == "Playtime") {
+        if (pdataLeft->totalTimePlayed() == pdataRight->totalTimePlayed()) {
+            return m_naturalSort.compare(pdataLeft->name(), pdataRight->name()) < 0;
+        }
+        return pdataLeft->totalTimePlayed() > pdataRight->totalTimePlayed();
     } else {
         return m_naturalSort.compare(pdataLeft->name(), pdataRight->name()) < 0;
     }

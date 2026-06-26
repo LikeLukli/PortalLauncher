@@ -63,6 +63,8 @@ enum InstSortMode {
     Sort_Name,
     // Sort by which instance was launched most recently.
     Sort_LastLaunch,
+    // Sort by which instance has the most playtime.
+    Sort_Playtime,
     // The order the user made by dragging instances around.
     Sort_Custom
 };
@@ -74,6 +76,7 @@ LauncherPage::LauncherPage(QWidget* parent) : QWidget(parent), ui(new Ui::Launch
     ui->sortingModeGroup->setId(ui->sortByNameBtn, Sort_Name);
     ui->sortingModeGroup->setId(ui->sortLastLaunchedBtn, Sort_LastLaunch);
     ui->sortingModeGroup->setId(ui->sortCustomBtn, Sort_Custom);
+    ui->sortingModeGroup->setId(ui->sortByPlaytimeBtn, Sort_Playtime);
 
     loadSettings();
 
@@ -234,6 +237,8 @@ void LauncherPage::applySettings()
             break;
         case Sort_Custom:
             s->set("InstSortMode", "Custom");
+        case Sort_Playtime:
+            s->set("InstSortMode", "Playtime");
             break;
         case Sort_Name:
         default:
@@ -295,6 +300,8 @@ void LauncherPage::loadSettings()
         ui->sortLastLaunchedBtn->setChecked(true);
     } else if (sortMode == "Custom") {
         ui->sortCustomBtn->setChecked(true);
+    } else if (sortMode == "Playtime"){
+        ui->sortByPlaytimeBtn->setChecked(true);
     } else {
         ui->sortByNameBtn->setChecked(true);
     }
