@@ -311,6 +311,7 @@ std::unique_ptr<MinecraftInstance> ModrinthCreationTask::createInstance()
             .reason = m_instance.has_value() ? "update" : "modpack",
             .gameVersion = m_minecraft_version,
             .loader = loader,
+            .dependentOn = !m_managed_id.isEmpty() ? m_managed_version_id : ""
         };
 
         // Another instance may already have this exact file: link it from the
