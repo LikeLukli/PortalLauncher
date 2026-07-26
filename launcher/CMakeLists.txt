@@ -333,6 +333,8 @@ set(MINECRAFT_SOURCES
     minecraft/WorldBackup.cpp
     minecraft/WorldList.h
     minecraft/WorldList.cpp
+    minecraft/WorldTasks.h
+    minecraft/WorldTasks.cpp
 
     minecraft/mod/MetadataHandler.h
     minecraft/mod/Mod.h
