@@ -61,6 +61,7 @@ MinecraftSettingsWidget::MinecraftSettingsWidget(MinecraftInstance* instance, QW
         m_ui->serverJoinGroupBox->hide();
         m_ui->globalDataPacksGroupBox->hide();
         m_ui->loaderGroup->hide();
+        m_ui->countGameTime->hide();
     } else {
         m_ui->discordGroupBox->hide();
         m_javaSettings = new JavaSettingsWidget(m_instance, this);
@@ -175,6 +176,7 @@ void MinecraftSettingsWidget::loadSettings()
     m_ui->gameTimeGroupBox->setChecked(m_instance == nullptr || settings->get("OverrideGameTime").toBool());
     m_ui->showGameTime->setChecked(settings->get("ShowGameTime").toBool());
     m_ui->recordGameTime->setChecked(settings->get("RecordGameTime").toBool());
+    m_ui->countGameTime->setChecked(settings->get("CountGameTime").toBool());
     m_ui->showGlobalGameTime->setChecked(m_instance == nullptr && settings->get("ShowGlobalGameTime").toBool());
     m_ui->showGameTimeWithoutDays->setChecked(m_instance == nullptr && settings->get("ShowGameTimeWithoutDays").toBool());
 
@@ -429,6 +431,13 @@ void MinecraftSettingsWidget::saveSettings()
     if (m_instance != nullptr)
         settings->set("OverrideGameTime", gameTime);
 
+    if (m_instance != nullptr) {
+        if (gameTime)
+            settings->set("CountGameTime", m_ui->countGameTime->isChecked());
+        else
+            settings->reset("CountGameTime");
+    }
+
     if (gameTime) {
         settings->set("ShowGameTime", m_ui->showGameTime->isChecked());
         settings->set("RecordGameTime", m_ui->recordGameTime->isChecked());
@@ -440,7 +449,7 @@ void MinecraftSettingsWidget::saveSettings()
     if (m_instance == nullptr) {
         settings->set("ShowGlobalGameTime", m_ui->showGlobalGameTime->isChecked());
         settings->set("ShowGameTimeWithoutDays", m_ui->showGameTimeWithoutDays->isChecked());
-    
+
         // Discord Rich Presence
         settings->set("DiscordPresenceEnabled", m_ui->discordPresenceCheckBox->isChecked());
         settings->set("DiscordClientId", m_ui->discordClientIdEdit->text().trimmed());
