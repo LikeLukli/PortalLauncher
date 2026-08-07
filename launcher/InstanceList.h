@@ -159,8 +159,6 @@ class InstanceList : public QAbstractListModel {
      */
     bool destroyStagingPath(const QString& keyPath);
 
-    int getTotalPlayTime();
-
     Qt::DropActions supportedDragActions() const override;
 
     Qt::DropActions supportedDropActions() const override;
@@ -193,7 +191,7 @@ class InstanceList : public QAbstractListModel {
 
    private:
     int getInstIndex(BaseInstance* inst) const;
-    void updateTotalPlayTime();
+    void migrateTotalPlayTime();
     void suspendWatch();
     void resumeWatch();
     void add(std::vector<std::unique_ptr<BaseInstance>>& list);
@@ -208,7 +206,6 @@ class InstanceList : public QAbstractListModel {
 
    private:
     int m_watchLevel = 0;
-    int totalPlayTime = 0;
     bool m_dirty = false;
     std::vector<std::unique_ptr<BaseInstance>> m_instances;
     // id -> refs
