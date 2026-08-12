@@ -361,8 +361,9 @@ std::unique_ptr<MinecraftInstance> ModrinthCreationTask::createInstance()
     connect(downloadMods.get(), &NetJob::stepProgress, this, &ModrinthCreationTask::propagateStepProgress);
 
     setStatus(tr("Downloading mods..."));
-    downloadMods->start();
     m_task = downloadMods;
+    setAbortable(true);
+    downloadMods->start();
 
     loop.exec();
 
