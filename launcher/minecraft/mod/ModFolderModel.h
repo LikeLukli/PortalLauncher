@@ -121,8 +121,8 @@ class ModFolderModel : public ResourceFolderModel {
     RESOURCE_HELPERS(Mod)
 
    public:
-    QStringList requiresList(QString id);
-    QStringList requiredByList(QString id);
+    QStringList requiresList(const QString& id) const;
+    QStringList requiredByList(const QString& id) const;
 
    private slots:
     void onParseSucceeded(int ticket, QString resource_id) override;

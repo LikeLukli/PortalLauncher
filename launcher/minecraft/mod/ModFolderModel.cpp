@@ -203,6 +203,26 @@ QVariant ModFolderModel::data(const QModelIndex& index, int role) const
                 return QSize(32, 32);
             }
             break;
+        case Qt::ToolTipRole:
+            switch (column) {
+                case RequiredByColumn: {
+                    const auto list = requiredByList(at(row).mod_id());
+                    if (!list.isEmpty()) {
+                        return list.join(QLatin1Char('\n'));
+                    }
+                    break;
+                }
+                case RequiresColumn: {
+                    const auto list = requiresList(at(row).mod_id());
+                    if (!list.isEmpty()) {
+                        return list.join(QLatin1Char('\n'));
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
         default:
             break;
     }
@@ -547,14 +567,14 @@ QStringList reqToList(QSet<Mod*> l)
     return req;
 }
 
-QStringList ModFolderModel::requiresList(QString id)
+QStringList ModFolderModel::requiresList(const QString& id) const
 {
-    return reqToList(m_requires[id]);
+    return reqToList(m_requires.value(id));
 }
 
-QStringList ModFolderModel::requiredByList(QString id)
+QStringList ModFolderModel::requiredByList(const QString& id) const
 {
-    return reqToList(m_requiredBy[id]);
+    return reqToList(m_requiredBy.value(id));
 }
 
 bool ModFolderModel::deleteResources(const QModelIndexList& indexes)
