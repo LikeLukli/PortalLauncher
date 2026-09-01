@@ -1583,8 +1583,6 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::globalSettingsClosed()
 {
-    // FIXME: quick HACK to make this work. improve, optimize.
-    APPLICATION->instances()->loadList();
     proxymodel->invalidate();
     proxymodel->sort(0);
     updateMainToolBar();
