@@ -143,6 +143,10 @@ void ModrinthPage::onSelectionChanged(QModelIndex curr, [[maybe_unused]] QModelI
     }
 
     m_current = m_model->data(curr, Qt::UserRole).value<ModPlatform::IndexedPack::Ptr>();
+    if (!m_current) {
+        return;
+    }
+
     auto name = m_current->name;
 
     if (!m_current->extraDataLoaded) {
