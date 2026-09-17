@@ -35,6 +35,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QObject>

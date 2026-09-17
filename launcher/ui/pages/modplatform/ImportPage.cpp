@@ -170,7 +170,7 @@ void ImportPage::updateState()
             if (fi.exists() && (isZip || isMRPack)) {
                 auto extra_info = QMap(m_extra_info);
                 qDebug() << "Pack Extra Info" << extra_info << m_extra_info;
-                dialog->setSuggestedPack(fi.completeBaseName(), new InstanceImportTask(url, this, std::move(extra_info)));
+                dialog->setSuggestedPack(fi.completeBaseName(), new InstanceImportTask(url, false, this, std::move(extra_info)));
                 dialog->setSuggestedIcon("default");
             }
         } else if (url.scheme() == "curseforge") {
@@ -215,7 +215,7 @@ void ImportPage::updateState()
                     extra_info.insert("pack_id", addonId);
                     extra_info.insert("pack_version_id", fileId);
 
-                    dialog->setSuggestedPack(pack_name, new InstanceImportTask(dl_url, this, std::move(extra_info)));
+                    dialog->setSuggestedPack(pack_name, new InstanceImportTask(dl_url, false, this, std::move(extra_info)));
                     dialog->setSuggestedIcon("default");
 
                 } else {
@@ -235,7 +235,7 @@ void ImportPage::updateState()
             // hook, line and sinker.
             QFileInfo fi(url.fileName());
             auto extra_info = QMap(m_extra_info);
-            dialog->setSuggestedPack(fi.completeBaseName(), new InstanceImportTask(url, this, std::move(extra_info)));
+            dialog->setSuggestedPack(fi.completeBaseName(), new InstanceImportTask(url, false, this, std::move(extra_info)));
             dialog->setSuggestedIcon("default");
         }
     } else {
@@ -254,7 +254,7 @@ void ImportPage::startCurseForgeCode(const QString& code)
     // just the editable default shown in the dialog.
     auto extra_info = QMap(m_extra_info);
     const QString name = m_cfCodeAuthor.isEmpty() ? tr("CurseForge modpack") : tr("%1's modpack").arg(m_cfCodeAuthor);
-    dialog->setSuggestedPack(name, new InstanceImportTask(QUrl(FlameAPI::shareProfileDownloadUrl(code)), this, std::move(extra_info)));
+    dialog->setSuggestedPack(name, new InstanceImportTask(QUrl(FlameAPI::shareProfileDownloadUrl(code)), true, this, std::move(extra_info)));
     dialog->setSuggestedIcon("default");
 
     // Only hit the network when the code actually changes, and debounce it so we do
@@ -298,7 +298,7 @@ void ImportPage::lookupCurseForgeCode()
             self->m_cfCodeAuthor = author;
             auto extra_info = QMap(self->m_extra_info);
             self->dialog->setSuggestedPack(tr("%1's modpack").arg(author),
-                                           new InstanceImportTask(QUrl(FlameAPI::shareProfileDownloadUrl(code)), self, std::move(extra_info)));
+                                           new InstanceImportTask(QUrl(FlameAPI::shareProfileDownloadUrl(code)), true, self, std::move(extra_info)));
             self->dialog->setSuggestedIcon("default");
         }
     });

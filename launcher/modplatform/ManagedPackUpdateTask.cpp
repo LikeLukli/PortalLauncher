@@ -77,7 +77,7 @@ void ManagedPackUpdateTask::startImport(const QUrl& url, const QString& versionI
     extraInfo.insert("pack_version_id", versionId);
     extraInfo.insert("original_instance_id", m_instance->id());
 
-    auto* importTask = new InstanceImportTask(url, m_parentWidget, std::move(extraInfo));
+    auto* importTask = new InstanceImportTask(url, /* trustedSource */ true, m_parentWidget, std::move(extraInfo));
     InstanceName name(m_instance->getManagedPackName(), versionName);
     name.setName(QString(m_instance->name()).replace(m_instance->getManagedPackVersionName(), versionName));
     importTask->setName(name);
