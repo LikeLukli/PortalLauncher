@@ -11,7 +11,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QList>
 #include <QObject>
+#include <QPair>
 #include <QString>
 #include <QUrl>
 #include <functional>
@@ -72,7 +74,8 @@ void request(QObject* ctx,
              const QByteArray& contentType,
              const QByteArray& body,
              Auth auth,
-             Callback cb);
+             Callback cb,
+             const QList<QPair<QByteArray, QByteArray>>& extraHeaders = {});
 void sendJson(QObject* ctx, const QByteArray& verb, const QUrl& url, const QJsonObject& payload, Auth auth, Callback cb);
 void getJson(QObject* ctx, const QUrl& url, Auth auth, Callback cb);
 

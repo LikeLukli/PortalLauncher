@@ -12,6 +12,7 @@
 
 #include "Application.h"
 #include "BuildConfig.h"
+#include "modplatform/helpers/HashUtils.h"
 #include "settings/Setting.h"
 #include "settings/SettingsObject.h"
 
@@ -142,7 +143,8 @@ void request(QObject* ctx,
              const QByteArray& contentType,
              const QByteArray& body,
              Auth auth,
-             Callback cb)
+             Callback cb,
+             const QList<QPair<QByteArray, QByteArray>>& extraHeaders)
 {
     if (auth != Auth::None && !isAuthorizedHost(url)) {
         Response bad;
@@ -166,6 +168,8 @@ void request(QObject* ctx,
             req.setRawHeader("Authorization", "Bearer " + token().toUtf8());
             break;
     }
+    for (const auto& header : extraHeaders)
+        req.setRawHeader(header.first, header.second);
     req.setTransferTimeout(5 * 60 * 1000);
 
     QNetworkReply* reply = APPLICATION->network()->sendCustomRequest(req, verb, body);
@@ -419,7 +423,10 @@ void uploadBytes(QObject* ctx, const QUrl& uploadUrl, const QByteArray& bytes, C
             QMetaObject::invokeMethod(ctx ? ctx : qApp, [cb, bad]() { cb(bad); }, Qt::QueuedConnection);
         return;
     }
-    request(ctx, "PUT", uploadUrl, "application/octet-stream", bytes, Auth::ServiceBearer, std::move(cb));
+    // The service requires the SHA-512 of the body on every file upload (the
+    // official app sends it too); without it the PUT is rejected with 400.
+    request(ctx, "PUT", uploadUrl, "application/octet-stream", bytes, Auth::ServiceBearer, std::move(cb),
+            { { "x-file-sha512", Hashing::hash(bytes, Hashing::Algorithm::Sha512).toUtf8() } });
 }
 
 void uploadFile(QObject* ctx, const QUrl& uploadUrl, const QString& filePath, Callback cb)
@@ -437,6 +444,16 @@ void uploadFile(QObject* ctx, const QUrl& uploadUrl, const QString& filePath, Ca
         return;
     }
 
+    // The service requires the SHA-512 of the body on every file upload (the
+    // official app sends it too); without it the PUT is rejected with 400.
+    // Hashing streams the file once before the upload streams it again, so
+    // memory stays flat even for very large jars and config bundles.
+    const QString sha512 = Hashing::hash(filePath, Hashing::Algorithm::Sha512);
+    if (sha512.isEmpty()) {
+        deliverError(QStringLiteral("Could not hash %1 for upload").arg(filePath));
+        return;
+    }
+
     auto* file = new QFile(filePath);
     if (!file->open(QIODevice::ReadOnly)) {
         delete file;
@@ -447,7 +464,9 @@ void uploadFile(QObject* ctx, const QUrl& uploadUrl, const QString& filePath, Ca
     QNetworkRequest req(uploadUrl);
     req.setHeader(QNetworkRequest::UserAgentHeader, APPLICATION->getUserAgent().toUtf8());
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
+    req.setHeader(QNetworkRequest::ContentLengthHeader, file->size());
     req.setRawHeader("Authorization", "Bearer " + token().toUtf8());
+    req.setRawHeader("x-file-sha512", sha512.toUtf8());
     req.setTransferTimeout(5 * 60 * 1000);
 
     // Streaming from the QFile keeps memory flat regardless of file size.
