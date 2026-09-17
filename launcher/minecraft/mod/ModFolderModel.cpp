@@ -521,7 +521,7 @@ bool ModFolderModel::setResourceEnabled(const QModelIndexList& indexes, EnableAc
             message += tr("%n mod(s) will be enabled\n", "", requiredToEnable.size());
             details += tr("The following mods will be enabled:");
             for (const auto* mod : requiredToEnable) {
-                details += QString("\n- %1 (%2)").arg(mod->name(), mod->internalId());
+                details += QString("\n- %1 (%2)").arg(mod->name(), mod->internal_id());
             }
         }
         if (!requiredToDisable.isEmpty()) {
@@ -531,7 +531,7 @@ bool ModFolderModel::setResourceEnabled(const QModelIndexList& indexes, EnableAc
             }
             details += tr("The following mods will be disabled:");
             for (const auto* mod : requiredToDisable) {
-                details += QString("\n- %1 (%2)").arg(mod->name(), mod->internalId());
+                details += QString("\n- %1 (%2)").arg(mod->name(), mod->internal_id());
             }
         }
         message += tr("Do you want to automatically apply these related changes?\nIgnoring them may break the game.");

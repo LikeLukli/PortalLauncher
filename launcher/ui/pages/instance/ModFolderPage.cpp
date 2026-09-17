@@ -400,7 +400,7 @@ void ModFolderPage::removeItems(const QItemSelection& selection)
         QString details = tr("The following mods depend on the mod(s) you want to remove:");
         for (auto indx : affected) {
             const Mod& mod = m_model->at(indx.row());
-            details += QString("\n- %1 (%2)").arg(mod.name(), mod.internalId());
+            details += QString("\n- %1 (%2)").arg(mod.name(), mod.internal_id());
         }
         box->setDetailedText(details);
         const auto response = box->exec();

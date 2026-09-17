@@ -88,7 +88,12 @@
             <property name="text">
              <string>By total time &amp;played</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">sortingModeGroup</string>
+            </attribute>
            </widget>
+          </item>
+          <item>
            <widget class="QRadioButton" name="sortCustomBtn">
             <property name="toolTip">
              <string>Arrange instances yourself by dragging them around the list. Dragging an instance turns this on automatically.</string>
@@ -766,8 +771,8 @@
   <tabstop>scrollArea</tabstop>
   <tabstop>sortByNameBtn</tabstop>
   <tabstop>sortLastLaunchedBtn</tabstop>
-  <tabstop>sortCustomBtn</tabstop>
   <tabstop>sortByPlaytimeBtn</tabstop>
+  <tabstop>sortCustomBtn</tabstop>
   <tabstop>askToRenameDirBtn</tabstop>
   <tabstop>alwaysRenameDirBtn</tabstop>
   <tabstop>neverRenameDirBtn</tabstop>
