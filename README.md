@@ -50,6 +50,8 @@ Found a bug or have a suggestion? Open a [GitHub issue](https://github.com/Porta
 
 Portal builds the same way Prism Launcher does. Follow the upstream [build instructions](https://prismlauncher.org/wiki/development/build-instructions/), cloning this repository instead. The launcher lives on the `main` branch.
 
+For a native Arch Linux or CachyOS build, see [BUILDING.md](BUILDING.md).
+
 ## Security and privacy
 
 Portal handles your Minecraft account and your Modrinth account, so here is exactly what it does with them.
