@@ -442,5 +442,71 @@ QDockWidget::title {
     text-align: left;
     color: #b8aed0;
 }
+
+/* A little more breathing room in the launcher chrome. */
+QToolBar#mainToolBar {
+    background-color: #171420;
+    border-bottom: 1px solid #30283f;
+    padding: 5px 8px;
+    spacing: 5px;
+}
+QToolBar#mainToolBar QToolButton {
+    min-height: 28px;
+    padding: 5px 9px;
+    color: #d9d1e8;
+}
+QToolBar#mainToolBar QToolButton:hover {
+    background-color: #2a2338;
+    color: #ffffff;
+}
+QToolBar#mainToolBar QToolButton:pressed,
+QToolBar#mainToolBar QToolButton:checked {
+    background-color: #38294e;
+    color: #ffffff;
+}
+QToolBar#instanceToolBar {
+    background-color: #1b1726;
+    border-left: 1px solid #30283f;
+    padding: 8px 5px;
+    spacing: 5px;
+}
+QToolBar#instanceToolBar QToolButton {
+    min-height: 30px;
+    padding: 6px 9px;
+}
+
+QLineEdit {
+    min-height: 24px;
+    border-radius: 8px;
+    padding: 4px 9px;
+}
+QPushButton {
+    min-height: 25px;
+    border-radius: 8px;
+    padding: 5px 14px;
+}
+QToolTip {
+    border-radius: 7px;
+    padding: 6px 9px;
+}
+
+QStatusBar {
+    border-top: 1px solid #30283f;
+    padding: 3px 8px;
+}
+QDockWidget::title {
+    background-color: #211b2f;
+    border-bottom: 1px solid #30283f;
+    padding: 8px 10px;
+    font-weight: 600;
+}
+QDockWidget::close-button, QDockWidget::float-button {
+    border: none;
+    border-radius: 4px;
+    padding: 3px;
+}
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+    background: #3a2e50;
+}
 )qss");
 }
